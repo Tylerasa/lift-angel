@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Map } from "react-map-gl";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
 import { HexagonLayer } from "@deck.gl/aggregation-layers";
-import DeckGL from '@deck.gl/react';
+import DeckGL from "@deck.gl/react";
 const DATA_URL =
   "https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv"; // eslint-disable-line
 
@@ -116,7 +116,12 @@ function App() {
         controller={true}
         getTooltip={getTooltip}
       >
-        <Map reuseMaps mapStyle={mapStyle} preventStyleDiffing={true} />
+        <Map
+          mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          reuseMaps
+          mapStyle={mapStyle}
+          preventStyleDiffing={true}
+        />
       </DeckGL>
     </div>
   );
