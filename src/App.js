@@ -4,6 +4,7 @@ import { Map } from "react-map-gl";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
 import { HexagonLayer } from "@deck.gl/aggregation-layers";
 import DeckGL from "@deck.gl/react";
+import { csv } from "d3-request";
 const DATA_URL =
   "https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv"; // eslint-disable-line
 
@@ -102,8 +103,19 @@ function App() {
   ];
 
   useEffect(() => {
-    axios.get(DATA_URL).then(res => {
-      console.log(res);
+    // axios.get(DATA_URL).then(res => {
+    //   // console.log(res);
+    //   setData(res.data);
+
+  
+    // });
+    csv(DATA_URL, (error, response) => {
+      if (!error) {
+        const mapData = response.map(d => [Number(d.lng), Number(d.lat)]);
+        // console.log(data)
+        setData(mapData)
+        // render(<App data={data} />, container);
+      }
     });
   }, []);
 
