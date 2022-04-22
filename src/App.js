@@ -1,11 +1,14 @@
 import TrendMap from "./components/TrendMap";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Geocode from "react-geocode";
 
 function App() {
-  console.log(process.env.REACT_APP_GOOGLE_MAPS_API);
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API);
+
+  const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState();
+
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -16,12 +19,15 @@ function App() {
   function showPosition(position) {
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
-    console.log(lat, lng);
     Geocode.fromLatLng(lat, lng).then(
       response => {
         const firstAddress = response.results[0].address_components;
-
-        console.log(firstAddress[firstAddress.length- 1].long_name);
+        const currentCountry = firstAddress[firstAddress.length - 1].long_name;
+        setCountry(currentCountry);
+        var newCountries = countries.filter(ele => {
+          return ele.name === currentCountry;
+        });
+        console.log(newCountries);
       },
       error => {
         console.error(error);
@@ -40,16 +46,20 @@ function App() {
 
     axios(config)
       .then(function(response) {
-        // console.log(JSON.stringify(response.data));
+        setCountries(response.data);
       })
       .catch(function(error) {
         console.log(error);
       });
   }, []);
 
-  useEffect(() => {
-    getLocation();
-  }, []);
+  useEffect(
+    () => {
+      getLocation();
+    },
+    [countries]
+  );
+
   return (
     <div>
       <p>hello</p>
