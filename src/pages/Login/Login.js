@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { BallSpinner } from "react-spinners-kit";
 
 import { useNavigate } from "react-router-dom";
 import { setUserPassword } from "../../redux/userSlice";
@@ -10,11 +11,15 @@ const Login = () => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
+  const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = e => {
     e.preventDefault();
+    setLoading(true);
+    setDisabled(true);
     var data = {
       email,
       password,
@@ -34,12 +39,24 @@ const Login = () => {
           localStorage.setItem("hep_token", response.data.jwt);
           dispatch(setUserPassword(password));
           navigate("/main");
+          setLoading(false);
         }
       })
       .catch(function(error) {
         console.log(error);
       });
   };
+
+  useEffect(
+    () => {
+      if (!username || !password || !email) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    },
+    [username, password, email]
+  );
 
   return (
     <div className="wrapper">
@@ -62,7 +79,9 @@ const Login = () => {
           type="password"
         />
         <br />
-        <button className="wrapper-button">login</button>
+        <button disabled={disabled} className="wrapper-button">
+          {loading ? <BallSpinner color="#fff" /> : "login"}
+        </button>
       </form>
     </div>
   );

@@ -7,6 +7,7 @@
   justify-content: center;
   width: 700px;
   margin: auto;
+  flex-direction: column;
 }
 
 input {
@@ -34,20 +35,25 @@ input {
   cursor: pointer;
   margin-bottom: 10px;
 }
+
+button:disabled {
+  background: rgba(77, 247, 43, 0.5);
+  cursor: not-allowed;
+}
+
 .wrapper-button {
-    background: rgb(77, 247, 43);
-    border: 0;
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    outline: none;
-    margin: auto;
-    font-family: "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 10px;
-  }
-  
+  background: rgb(77, 247, 43);
+  border: 0;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  margin: auto;
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 
 .create-account {
   color: white;
@@ -106,4 +112,27 @@ input {
   display: grid;
   grid-template-columns: 300px 300px;
   gap: 30px;
+}
+
+.w-100 {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.title {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.required {
+  color: crimson;
+  position: absolute;
+  top: 10px;
+  left: 3px;
+}
+
+.required-field {
+  position: relative;
 }

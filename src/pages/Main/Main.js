@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import UserTable from "../../components/UserTable";
-
+import "./styles.css";
 const Main = () => {
   const [user, setUser] = useState(null);
 
@@ -26,7 +26,8 @@ const Main = () => {
       });
   }, []);
   return (
-    <div>
+    <div className="main-wrapper">
+      <p className="title">User Details</p>
       {user && <UserTable user={user} />}
     </div>
   );

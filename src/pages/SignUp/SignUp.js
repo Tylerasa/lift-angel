@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BallSpinner } from "react-spinners-kit";
 import "./styles.css";
 const SignUp = () => {
   const [username, setUsername] = useState(null);
@@ -19,10 +20,13 @@ const SignUp = () => {
   const [oldPassword, setOldPassword] = useState(null);
   const [createdBy, setCreatedBy] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
+    setLoading(true);
+    setDisabled(true);
     var data = {
       group,
       username,
@@ -52,6 +56,7 @@ const SignUp = () => {
         console.log(response.status);
         if (response.status === 200) {
           navigate("/login");
+          setLoading(false);
         }
       })
       .catch(function(error) {
@@ -59,9 +64,21 @@ const SignUp = () => {
       });
   };
 
+  useEffect(
+    () => {
+      if (!username || !password || !email) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    },
+    [username, password, email]
+  );
+
   useEffect(() => {});
   return (
     <div className="login-wrapper">
+      <p className="title">Create an account</p>
       <form onSubmit={e => handleSubmit(e)}>
         <div className="grid-line">
           <input
@@ -93,11 +110,14 @@ const SignUp = () => {
             placeholder="Gender"
             type="text"
           />{" "}
-          <input
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
-            type="email"
-          />{" "}
+          <div className="required-field">
+            <span className="required">*</span>
+            <input
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Email"
+              type="email"
+            />{" "}
+          </div>
         </div>
         <div className="grid-line">
           <input
@@ -118,10 +138,10 @@ const SignUp = () => {
             type="tel"
           />{" "}
           <input
-            onChange={e => setUsername(e.target.value)}
-            placeholder="Username"
+            onChange={e => setCreatedBy(e.target.value)}
+            placeholder="Created By"
             type="text"
-          />{" "}
+          />
         </div>
         <div className="grid-line">
           <input
@@ -136,18 +156,29 @@ const SignUp = () => {
           />
         </div>
         <div className="grid-line">
-          <input
-            onChange={e => setPassword(e.target.value)}
-            placeholder="password"
-            type="password"
-          />
-          <input
-            onChange={e => setCreatedBy(e.target.value)}
-            placeholder="Created By"
-            type="text"
-          />
+          <div className="required-field">
+            <span className="required">*</span>
+            <input
+              onChange={e => setUsername(e.target.value)}
+              placeholder="Username"
+              type="text"
+            />
+          </div>
+          <div className="required-field">
+            <span className="required">*</span>
+
+            <input
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Password"
+              type="password"
+            />
+          </div>
         </div>
-        <button className="login-button">login</button>
+        <div className="w-100">
+          <button disabled={disabled} className="login-button">
+            {loading ? <BallSpinner color="#fff" /> : "create account"}
+          </button>
+        </div>
       </form>
     </div>
   );
