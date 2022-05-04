@@ -1,0 +1,40 @@
+table {
+  background: #ffffff;
+  border: 1px solid #f3f3f3;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 16px rgba(0, 0, 0, 0.02);
+  border-radius: 2px;
+  width: 80%;
+  margin: auto;
+}
+
+thead {
+  text-align: left;
+}
+
+td,
+th {
+  border-bottom: 1px solid #f3f3f3;
+  color: #000;
+  font-family: Inter;
+  font-style: normal;
+}
+
+th {
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  padding: 16px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+td {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  padding: 16px 20px;
+}

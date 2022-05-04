@@ -42,7 +42,7 @@ const SignUp = () => {
 
     var config = {
       method: "post",
-      url: process.env.REACT_APP_BASE_URL,
+      url: `${process.env.REACT_APP_BASE_URL}/create`,
       data: data
     };
 
