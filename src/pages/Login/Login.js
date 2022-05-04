@@ -13,6 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,10 +37,16 @@ const Login = () => {
       .then(function(response) {
         console.log(response.data);
         if (response.status === 200) {
-          localStorage.setItem("hep_token", response.data.jwt);
-          dispatch(setUserPassword(password));
-          navigate("/main");
-          setLoading(false);
+          if (response.data.status === 200) {
+            localStorage.setItem("hep_token", response.data.jwt);
+            dispatch(setUserPassword(password));
+            navigate("/main");
+            setLoading(false);
+          } else {
+            console.log(response.data.code);
+            setError(response.data.code);
+            setLoading(false);
+          }
         }
       })
       .catch(function(error) {
@@ -60,6 +67,11 @@ const Login = () => {
 
   return (
     <div className="wrapper">
+      <p className="title">login</p>
+
+      <span className="error">
+        {error}
+      </span>
       <form onSubmit={e => handleSubmit(e)}>
         <input
           onChange={e => setUsername(e.target.value)}

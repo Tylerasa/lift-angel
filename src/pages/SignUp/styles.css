@@ -10,7 +10,7 @@
   flex-direction: column;
 }
 
-input {
+input, select {
   outline: none;
   margin-bottom: 10px;
   width: 300px;
@@ -135,4 +135,10 @@ button:disabled {
 
 .required-field {
   position: relative;
+}
+
+
+.error{
+  color: crimson;
+  margin-top: -5px;
 }

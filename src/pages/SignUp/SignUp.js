@@ -21,6 +21,7 @@ const SignUp = () => {
   const [createdBy, setCreatedBy] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = e => {
@@ -28,7 +29,7 @@ const SignUp = () => {
     setLoading(true);
     setDisabled(true);
     var data = {
-      group,
+      group: parseInt(group),
       username,
       first_name: firstName,
       last_name: lastName,
@@ -40,7 +41,7 @@ const SignUp = () => {
       secondary_phone: scphone,
       photo_url: photo,
       old_pwd: oldPassword,
-      created_by: createdBy,
+      created_by: parseInt(createdBy),
       password
     };
 
@@ -55,8 +56,14 @@ const SignUp = () => {
         console.log(response.data);
         console.log(response.status);
         if (response.status === 200) {
-          navigate("/login");
-          setLoading(false);
+          if (response.data.status === 200) {
+            navigate("/login");
+            setLoading(false);
+          } else {
+            console.log(response.data.code);
+            setError(response.data.code);
+            setLoading(false);
+          }
         }
       })
       .catch(function(error) {
@@ -79,12 +86,15 @@ const SignUp = () => {
   return (
     <div className="login-wrapper">
       <p className="title">Create an account</p>
+      <span className="error">
+        {error}
+      </span>
       <form onSubmit={e => handleSubmit(e)}>
         <div className="grid-line">
           <input
             onChange={e => setGroup(e.target.value)}
             placeholder="Group"
-            type="text"
+            type="number"
           />
           <input
             onChange={e => setFirstName(e.target.value)}
@@ -105,11 +115,23 @@ const SignUp = () => {
           />
         </div>
         <div className="grid-line">
-          <input
+          <select
+            onChange={e => setGender(e.target.value)}
+            style={{ width: "320px" }}
+            name="gender"
+            id="gender"
+          >
+            <option disabled selected value="">
+              Gender
+            </option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          {/* <input
             onChange={e => setGender(e.target.value)}
             placeholder="Gender"
             type="text"
-          />{" "}
+          />{" "} */}
           <div className="required-field">
             <span className="required">*</span>
             <input
@@ -140,7 +162,7 @@ const SignUp = () => {
           <input
             onChange={e => setCreatedBy(e.target.value)}
             placeholder="Created By"
-            type="text"
+            type="number"
           />
         </div>
         <div className="grid-line">
