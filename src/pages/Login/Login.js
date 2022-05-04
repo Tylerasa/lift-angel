@@ -37,16 +37,14 @@ const Login = () => {
       .then(function(response) {
         console.log(response.data);
         if (response.status === 200) {
-          if (response.data.status === 200) {
-            localStorage.setItem("hep_token", response.data.jwt);
-            dispatch(setUserPassword(password));
-            navigate("/main");
-            setLoading(false);
-          } else {
-            console.log(response.data.code);
-            setError(response.data.code);
-            setLoading(false);
-          }
+          localStorage.setItem("hep_token", response.data.jwt);
+          dispatch(setUserPassword(password));
+          navigate("/main");
+          setLoading(false);
+        } else {
+          console.log(response.data.code);
+          setError(response.data.code);
+          setLoading(false);
         }
       })
       .catch(function(error) {
